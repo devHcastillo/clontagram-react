@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import Main from "../Componentes/Main";
 
-export default function Login({ login }) {
+export default function Login({ login, mostrarError }) {
   const [usuario, setUsuario] = useState({
     email: "",
     password: "",
@@ -19,9 +20,10 @@ export default function Login({ login }) {
     e.preventDefault();
 
     try {
-      login(usuario.email, usuario.password);
+      await login(usuario.email, usuario.password);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data)
+      mostrarError(error.response.data.message)
     }
   };
 
@@ -55,7 +57,7 @@ export default function Login({ login }) {
               Login
             </button>
             <p className="FormContainer__info">
-              No tienes cuenta? <a href="/signup">Signup</a>{" "}
+              No tienes cuenta? <Link to="/signup">Signup</Link>
             </p>
           </form>
         </div>

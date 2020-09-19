@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 import Axios from "axios";
 import {
   setToken,
@@ -11,6 +13,7 @@ import {
 import Nav from "./Componentes/Nav";
 import Main from "./Componentes/Main";
 import Loading from "./Componentes/Loading";
+import Error from "./Componentes/Error";
 
 //Vistas
 import Signup from "./Vistas/Signup";
@@ -21,6 +24,7 @@ initAxiosInterceptors();
 export default function App() {
   const [usuario, setUsuario] = useState(null); //Userstate
   const [cargandoUsuario, setCargandoUsuario] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function cargarUsuario() {
@@ -61,6 +65,13 @@ export default function App() {
     deleteToken();
   };
 
+  function mostrarError(message) {
+    setError(message);
+  }
+  function esconderError() {
+    setError(null);
+  }
+
   if (cargandoUsuario) {
     return (
       <Main center={true}>
@@ -70,11 +81,52 @@ export default function App() {
   }
 
   return (
-    <div className="ContenedorTemporal">
+    <Router>
       <Nav />
-      {/* <Signup signup={signup} /> */}
-      <Login login={login} />
-      <div>{JSON.stringify(usuario)}</div>
-    </div>
+      <Error mensaje={error} esconderError={esconderError} />
+      {usuario ? (
+        <LoginRoutes />
+      ) : (
+        <LogoutRoutes
+          login={login}
+          signup={signup}
+          mostrarError={mostrarError}
+        />
+      )}
+    </Router>
+  );
+}
+
+function LoginRoutes() {
+  return (
+    <Switch>
+      <Route
+        component={() => (
+          <Main>
+            <h1>DESDE ADENTRO DEL APP</h1>
+          </Main>
+        )}
+        default
+      ></Route>
+    </Switch>
+  );
+}
+
+function LogoutRoutes({ login, signup, mostrarError }) {
+  return (
+    <Switch>
+      <Route
+        path="/login/"
+        render={(props) => (
+          <Login {...props} login={login} mostrarError={mostrarError} />
+        )}
+      ></Route>
+      <Route
+        render={(props) => (
+          <Signup {...props} signup={signup} mostrarError={mostrarError} />
+        )}
+        default
+      ></Route>
+    </Switch>
   );
 }

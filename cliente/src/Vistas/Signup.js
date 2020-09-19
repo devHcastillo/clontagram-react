@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 import Main from "../Componentes/Main";
 import SignupImage from "../imagenes/signup.png";
 
-export default function Signup({ signup }) {
+export default function Signup({ signup, mostrarError }) {
   const [usuario, setUsuario] = useState({
     email: "",
     username: "",
@@ -22,8 +22,11 @@ export default function Signup({ signup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      signup(usuario);
-    } catch (error) {}
+      await signup(usuario);
+    } catch (error) {
+      console.log(error.response.data)
+      mostrarError(error.response.data.message)
+    }
   };
 
   return (
@@ -96,7 +99,7 @@ export default function Signup({ signup }) {
               Sign up
             </button>
             <p className="FormContainer__info">
-              Ya tienes una cuenta? <a href="/login">login</a>{" "}
+              Ya tienes una cuenta? <Link to="/login">login</Link>
             </p>
           </form>
         </div>
