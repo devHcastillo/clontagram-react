@@ -18,6 +18,7 @@ import Error from "./Componentes/Error";
 //Vistas
 import Signup from "./Vistas/Signup";
 import Login from "./Vistas/Login";
+import Upload from "./Vistas/Upload";
 
 initAxiosInterceptors();
 
@@ -82,10 +83,10 @@ export default function App() {
 
   return (
     <Router>
-      <Nav />
+      <Nav usuario={usuario} />
       <Error mensaje={error} esconderError={esconderError} />
       {usuario ? (
-        <LoginRoutes />
+        <LoginRoutes mostrarError={mostrarError} />
       ) : (
         <LogoutRoutes
           login={login}
@@ -97,9 +98,14 @@ export default function App() {
   );
 }
 
-function LoginRoutes() {
+function LoginRoutes({ mostrarError }) {
   return (
     <Switch>
+      <Route
+        path="/upload/"
+        render={(props) => <Upload {...props} mostrarError={mostrarError} />}
+      ></Route>
+
       <Route
         component={() => (
           <Main>
