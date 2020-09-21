@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Axios from "axios";
 import {
@@ -19,6 +19,7 @@ import Error from "./Componentes/Error";
 import Signup from "./Vistas/Signup";
 import Login from "./Vistas/Login";
 import Upload from "./Vistas/Upload";
+import Feed from "./Vistas/Feed";
 
 initAxiosInterceptors();
 
@@ -86,7 +87,7 @@ export default function App() {
       <Nav usuario={usuario} />
       <Error mensaje={error} esconderError={esconderError} />
       {usuario ? (
-        <LoginRoutes mostrarError={mostrarError} />
+        <LoginRoutes mostrarError={mostrarError} usuario={usuario}/>
       ) : (
         <LogoutRoutes
           login={login}
@@ -98,7 +99,7 @@ export default function App() {
   );
 }
 
-function LoginRoutes({ mostrarError }) {
+function LoginRoutes({ mostrarError,usuario }) {
   return (
     <Switch>
       <Route
@@ -107,11 +108,8 @@ function LoginRoutes({ mostrarError }) {
       ></Route>
 
       <Route
-        component={() => (
-          <Main>
-            <h1>DESDE ADENTRO DEL APP</h1>
-          </Main>
-        )}
+        path="/"
+        render={(props) => <Feed {...props} mostrarError={mostrarError} usuario={usuario} />}
         default
       ></Route>
     </Switch>
