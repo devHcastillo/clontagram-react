@@ -40,6 +40,8 @@ export default function Post({ post, actualizarPost, mostrarError, usuario }) {
     const postActualizado = await ComentarHelper(post, mensaje, usuario);
 
     actualizarPost(post, postActualizado);
+    
+
   }
 
   return (

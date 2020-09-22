@@ -14,6 +14,7 @@ export default function Comentar({ onSubmitComentario, mostrarError }) {
       setEnviandoComentario(true);
       await onSubmitComentario(mensaje);
       setMensaje("");
+      setEnviandoComentario(false);
     } catch (error) {
       setEnviandoComentario(false);
       mostrarError('Hubo un problema enviando el comentario')
