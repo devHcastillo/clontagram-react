@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCameraRetro } from "@fortawesome/free-solid-svg-icons";
+import {faCompass} from '@fortawesome/free-regular-svg-icons'
 import { Link } from "react-router-dom";
 
 export default function Nav({ usuario }) {
@@ -24,6 +25,11 @@ function LoginRoutes() {
       <li className="Nav__link-push">
         <Link className="Nav__link" to="/upload">
           <FontAwesomeIcon icon={faCameraRetro} />
+        </Link>
+      </li>
+      <li className="Nav__link-margin-left">
+        <Link className="Nav__link" to="/explore">
+          <FontAwesomeIcon icon={faCompass} />
         </Link>
       </li>
     </>
